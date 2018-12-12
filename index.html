@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=" utf-8">
+		<title>卡片</title>
+		<link href="css/default.css" rel="stylesheet">
+		<link href="css/editable.css" rel="stylesheet">
+		<link rel="stylesheet" href="dist/optiscroll.css">
+		<script type="text/javascript" src="dist/optiscroll.min.js"></script>
+		<!--如果没必要,可以不引入jQuery-->
+		<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+		<!--卡片编辑器的主程序-->
+		<script type="text/javascript" src="js/main.js"></script>
+	</head>
+	<body style="background-image:url('image/47609877_p0.png');">
+		<!--顶部导航栏-->
+		<nav class="navbar navbar-inverse navbar-fixed-top"  style="background-color:#000000; height:50px;">
+			<div class="container-fluid" >
+				<!--导航栏左侧-->
+				<div class="navbar-header" >
+					<a class="navbar-brand" href="#" style="float: left; padding: 15px 15px;">
+						<img style="width:20px; height: 20px; margin-left: -15px;" alt="Brand" src="image/icon/logo.svg">
+					</a>
+					<p class="navbar-text" style="float: left; margin-top: 15px; margin-bottom: 15px;">Notes</p>
+
+				</div>
+				<!--导航栏右侧-->
+				<div class="navbar-right" id="#">
+					<p class="navbar-text " style="margin-top: 15px; margin-bottom: 15px;">卡片式笔记</p>
+					<input accept='image/*' style='display: none;' id='upload_file' type='file' onchange='gen_base64(this.files);' />
+				</div>
+
+			</div>
+		</nav>
+
+		<!--右键菜单栏-->
+		<div id="dropdown"></div>
+		
+		<!--主页面_这里使用了optiscroll的滑动条插件-->
+		<div id="m-wrapper" class="m-wrapper optiscroll">
+		
+			<!--卡组,卡片将在这里生成-->
+			<div id="Card_set" style="margin: 80px auto 60px auto;width:86%;max-width:960px;"></div>
+			<!--添加新按钮-->
+			<div style="width:86%;max-width:960px;height:80px;margin: 30px auto 60px auto;text-align:center">
+				<button style="border: none;background-color: rgba(0,0,0,0);cursor: pointer;outline:0px;" title="添加新卡片" onclick="add_Card();"><img style="width:70px; height: 70px; margin:auto; user-select:none;" alt="Brand" src="image/icon/add.svg"></button>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var wr = new Optiscroll(document.getElementById('m-wrapper'), { forceScrollbars: true });
+		</script>
+	</body>
+</html>
