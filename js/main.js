@@ -4,6 +4,7 @@ console.log("话说Edge对H5的支持不怎么样哇~");
 document.onpaste = function(event){
 	event.preventDefault();
 	var text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('在这里输入文本');
+	text = text.replace(/[\r\n]/g, "");
 	document.execCommand("insertText", false, text);
 };
 
@@ -12,58 +13,65 @@ window.oncontextmenu = function(){
 	event.returnValue = false;
 };
 /*--------------------------------------------------------------拖动排序组件----------------------------------------------------*/
-			var dragged = null;
-			
-			/* 当用户开始拖动一个元素或者一个选择文本的时候 dragstart 事件就会触发 */
-			document.addEventListener("dragstart", function( event ) {
-				dragged = event.target;																					// 保存拖动元素的引用(ref.)
-				
-				event.target.style.opacity = .5;																		// 使其半透明
-			}, false);
-			/* 拖放事件在拖放操作结束时触发(通过释放鼠标按钮或单击escape键)。 */
-			document.addEventListener("dragend", function( event ) {
-				event.target.style.opacity = "";																		// 重置透明度
-			}, false);
+var dragged = null;
 
-			/* 放下目标节点时触发事件 */
-			/* 当元素或者选择的文本被拖拽到一个有效的放置目标上时，触发 dragover 事件(每几百毫秒触发一次) */
-			document.addEventListener("dragover", function( event ) {
-				if (event.target.getAttribute("draggable") == "true") {													// 注意:这里需要判断是否是同类元素,防止被插入到奇怪的地方
-					event.preventDefault(); 																			// 默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。
-				}
-				event.dataTransfer.dropEffect = 'move';
-			}, false);
-			/* 当拖动的元素或被选择的文本进入有效的放置目标时， dragenter 事件被触发。 */
-			document.addEventListener("dragenter", function( event ) {
-				if (event.target.getAttribute("draggable") == "true") {
-					event.target.style.backgroundColor = "#f5f5f5";															// 当可拖动的元素进入可放置的目标高亮目标节点
-				}
+/* 当用户开始拖动一个元素或者一个选择文本的时候 dragstart 事件就会触发 */
+document.addEventListener("dragstart", function( event ) {
+	dragged = event.target;																					// 保存拖动元素的引用(ref.)
 
-			}, false);
-			/* 当一个被拖动的元素或者被选择的文本离开一个有效的拖放目标时，将会触发 事件。 */
-			document.addEventListener("dragleave", function( event ) {
-				if (event.target.getAttribute("draggable") == "true") {
-					event.target.style.background = "";																	// 当拖动元素离开可放置目标节点，重置其背景
-				}
+	event.target.style.opacity = .5;																		// 使其半透明
+}, false);
+/* 拖放事件在拖放操作结束时触发(通过释放鼠标按钮或单击escape键)。 */
+document.addEventListener("dragend", function( event ) {
+	event.target.style.opacity = "";																		// 重置透明度
+}, false);
 
-			}, false);
-			/* 当一个元素或是选中的文字被拖拽释放到一个有效的位置释放目标时，drop 事件被抛出 */
-			document.addEventListener("drop", function( event ) {
-					event.stopPropagation(); 																			// 阻止默认事件
+/* 放下目标节点时触发事件 */
+/* 当元素或者选择的文本被拖拽到一个有效的放置目标上时，触发 dragover 事件(每几百毫秒触发一次) */
+document.addEventListener("dragover", function( event ) {
+	if (event.target.getAttribute("draggable") == "true") {													// 注意:这里需要判断是否是同类元素,防止被插入到奇怪的地方
+		event.preventDefault(); 																			// 默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。
+	}
+	event.dataTransfer.dropEffect = 'move';
+}, false);
+/* 当拖动的元素或被选择的文本进入有效的放置目标时， dragenter 事件被触发。 */
+document.addEventListener("dragenter", function( event ) {
+	if (event.target.getAttribute("draggable") == "true") {
+		event.target.style.backgroundColor = "#f5f5f5";														// 当可拖动的元素进入可放置的目标高亮目标节点
+	}
 
-				//if ( event.target.className == "dropzone" ) {
-				if ( event.target != dragged ) {																		// 移动拖动的元素到所选择的放置目标节点
-					dragged.parentNode.removeChild( dragged );															// 删除拖动的节点
-					event.target.parentNode.insertBefore( dragged ,event.target);										// 向目标元素前面插入拖动的节点
-				}
-				event.target.style.background = "";																		// 重置背景
-			}, false);
+}, false);
+/* 当一个被拖动的元素或者被选择的文本离开一个有效的拖放目标时，将会触发 事件。 */
+document.addEventListener("dragleave", function( event ) {
+	if (event.target.getAttribute("draggable") == "true") {
+		event.target.style.background = "";																	// 当拖动元素离开可放置目标节点，重置其背景
+	}
+
+}, false);
+/* 当一个元素或是选中的文字被拖拽释放到一个有效的位置释放目标时，drop 事件被抛出 */
+document.addEventListener("drop", function( event ) {
+		event.stopPropagation(); 																			// 阻止默认事件
+
+	//if ( event.target.className == "dropzone" ) {
+	if ( event.target != dragged ) {																		// 移动拖动的元素到所选择的放置目标节点
+		dragged.parentNode.removeChild( dragged );															// 删除拖动的节点
+		event.target.parentNode.insertBefore( dragged ,event.target);										// 向目标元素前面插入拖动的节点
+	}
+	event.target.style.background = "";																		// 重置背景
+}, false);
 
 
 
 
 /*--------------------------------------------------------------右键事件组件----------------------------------------------------*/
 
+ //回车事件
+document.onkeydown = function (event) {
+var e = event || window.event;
+	if (e && e.keyCode == 13) { //回车键的键值为13
+		event.preventDefault();
+	}
+}; 
 
 
 /*生成菜单*/
@@ -217,8 +225,6 @@ function add_Tool_Button(){
 	but += "<button class='Tool_button' data-Method='add_title2' title='标题' ><img src='image/icon/添加栏/标题.svg' /></button>";					// 添加文本按钮
 	but += "<button class='Tool_button' data-Method='add_Central_content' title='中心内容' ><img src='image/icon/添加栏/中心内容.svg' /></button>";			// 添加文本按钮
 	but += "<button class='Tool_button' data-Method='add_image' title='图片' ><img src='image/icon/添加栏/图片.svg' /></button>";					// 添加文本按钮
-	but += "<button class='Tool_button' data-Method='add_form' title='表格' ><img src='image/icon/添加栏/表格.svg' /></button>";					// 添加文本按钮
-	but += "<button class='Tool_button' data-Method='add_file' title='附件' ><img src='image/icon/添加栏/附件.svg' /></button>";					// 添加文本按钮
 	but += "<button class='Tool_button' data-Method='add_media' title='媒体文件' ><img src='image/icon/添加栏/媒体文件.svg' /></button>";			// 添加文本按钮
 	
 	return but;
@@ -344,7 +350,7 @@ function add_title2(object){
 	Card.setAttribute("draggable", "true");												// 设置可被拖动
 	Card.setAttribute("contenteditable", "plaintext-only");								// 设置可被编辑,但只能输入纯文本
 	Card.setAttribute("data-menu-name", "add_Menu_title2");
-	Card.innerHTML = "这是标题 <small>副标题</small>";
+	Card.innerHTML = "这是标题";
 	
 	object.appendChild(Card);															// 插入文本编辑块
 	right_Menu_Event(Card);																// 绑定菜单事件
@@ -443,26 +449,12 @@ function gen_base64(file) {
 }
 
 
-/*>>>>>>添加表格<<<<<<*/
-function add_form(object){
-	// var Card = document.createElement("img");
-	// Card.innerHTML = "";
-	// object.appendChild(Card);								// 插入表格块
-}
-
-/*>>>>>>添加文件<<<<<<*/
-function add_file(object){
-	// var Card = document.createElement("img");
-	// Card.innerHTML = "";
-	// object.appendChild(Card);								// 插入文件块
-}
-
 /*>>>>>>添加媒体<<<<<<*/
 function add_media(object){
 	var Card = document.createElement("div");
 	Card.className = "media";
 	Card.setAttribute("draggable", "true");												// 设置可被拖动
-	Card.innerHTML = "<p>在这里可以保存,访问数据</p>";
+	//Card.innerHTML = "<p>在这里可以保存,访问数据</p>";
 	Card.setAttribute("data-menu-name", "add_Menu_media");								// 指定要调用的方法
 	
 	object.appendChild(Card);															// 插入媒体块
@@ -479,4 +471,65 @@ function add_Menu_media(){
 	menu.innerHTML += "<button class='button' title='移除' onclick='literals_Delete()'><img src='image/icon/右键菜单/移除.svg' /></button>";
 	
 	document.getElementById("dropdown").appendChild(menu);								// 插入生成的菜单
+}
+
+/*--------------------------------------------------------------保存组----------------------------------------------------*/
+
+// 执行保存方法
+function Save(){
+	var titles = document.getElementById("file_name").innerText;						// 获取标题
+	
+	
+	var paras = document.getElementsByClassName('Toolbars');
+	for(i=paras.length;i>=0;i--){
+		 //删除元素 元素.parentNode.removeChild(元素);
+		if (paras[i] != null)
+			paras[i].parentNode.removeChild( paras[i]);
+	}
+	var body = document.getElementById("Card_set").innerHTML;							// 获取内容块
+	
+	/*删除没必要的属性*/
+	body = body.replace(/\"/g,"'");														// 将双引号转为单引号
+	body = body.replace(/contenteditable='true'/g,"");
+	body = body.replace(/contenteditable='plaintext-only'/g,"");
+	body = body.replace(/draggable='true'/g,"");
+	
+	//body = body.replace(/^<div class='Toolbars' .*>.*<\/div>/g,"");					// 删除功能栏____<div class='Toolbars'>
+	console.log(body);
+	
+	var page = "<!DOCTYPE html><html><head><meta charset=' utf-8'><title>"+ titles +"</title>		<style>body{background-size:cover;position:relative;background-color:#efefef;background-repeat:no-repeat;background-attachment:fixed;background-position:center;height:100%}nav{background-color:#222;border-color:#080808;top:0;border-width:0 0 1px;border-radius:0;position:fixed;right:0;left:0;z-index:1030}.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.navbar-header{float:left}.container-fluid>.navbar-collapse,.container-fluid>.navbar-header,.container>.navbar-collapse,.container>.navbar-header{margin-right:0;margin-left:0}.navbar-right{float:right!important}.Card{width:86%;max-width:960px;opacity:.95;margin-bottom:20px;background-color:#fff;border:1px solid transparent;border-radius:5px;box-shadow:1px 2px 1px rgba(0,0,0,0.05);box-sizing:border-box;margin:30px auto}.Content{margin:40px}.Title{border-bottom:1px solid #eee;box-sizing:border-box;display:block;outline:0}.Toolbars{min-height:20px;padding:10px 15px;box-shadow:0 1px 1px rgba(0,0,0,0.05);background-color:#f5f5f5;border-top:1px solid #ddd;border-bottom-right-radius:3px;border-bottom-left-radius:3px;user-select:none}h1,h2{font-weight:500;font-family:inherit;margin-top:20px;margin-bottom:10px;text-indent:25px}h1{font-size:36px}h2{font-size:24px}h1>small{font-weight:400;line-height:1;color:#777;font-size:65%}h2>small{font-weight:400;line-height:1;color:#555;font-size:65%}p,.text{font-weight:40;font-size:16px;color:#555;margin:10px auto;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.lead{font-size:20px;font-weight:10;margin-bottom:20px;font-weight:300;line-height:1.4;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}mark{padding:.2em;background-color:#fcf8e3}.blockquote{padding:10px 20px;margin:0 0 20px;border-left:5px solid #eee;display:block;font-size:80%;line-height:1.4285;color:#777}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block;content:'\2014 \00A0'}ol,ul{margin-top:0;margin-bottom:10px}li,dd{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.4285;color:#333;background-color:#fff}@media all and (min-width:768px){dl dt{float:left;width:160px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}dl dd{margin-left:180px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}}dd{margin-left:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}dt{font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.image{max-width:100%;width:auto;height:auto;padding:4px;line-height:1.4285;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:block;margin:20px auto}.img{margin:auto 10px}.media{border-style:solid;border-top-width:5px;border-top-color:#1b809e;border-right-width:1px;border-right-color:#eee;border-bottom-width:5px;border-bottom-color:#1b809e;border-left-width:1px;border-left-color:#eee;border-radius:3px;padding:10px 0 30px 0;margin:10px auto}iframe{width:100%;height:550px}table{width:100%;max-width:100%;margin-bottom:20px}table{background-color:transparent}table{border-spacing:0;border-collapse:collapse}table>thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}table>tbody>tr>td,table>tbody>tr>th,table>tfoot>tr>td,table>tfoot>tr>th,table>thead>tr>td,table>thead>tr>th{padding:8px;line-height:1.4285;vertical-align:top;border-top:1px solid rgba(0,0,0,0.05);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}caption{padding-top:8px;padding-bottom:8px;color:#777;text-align:left}</style></head><body><!--顶部导航栏--><nav class='navbar navbar-inverse navbar-fixed-top'style='background-color:#000000; height:50px;'><div class='container-fluid'><!--导航栏左侧--><div class='navbar-header'><p class='navbar-text'style='float: left; margin-top: 15px; margin-bottom: 15px;'>"+ titles +"</p></div><!--导航栏右侧--><div class='navbar-right'><a class='navbar-brand'href='https://space.bilibili.com/25826498'style='color: #555; float: left; padding: 15px 15px;text-decoration:none;'>@不存在的歌手</a></div></div></nav><!--卡组,卡片将在这里生成--><div id='Card_set'style='margin: 80px auto 60px auto;width:86%;max-width:960px;'>"+ body +"</div></body></html>";
+
+	doSave(page, "text/latex", titles + ".html");  																		// doSave(值,类型,文件名.后缀名)
+}
+
+/*保存方法*/
+function doSave(value, type, name) {
+	var blob;
+	if (typeof window.Blob == "function") {
+		blob = new Blob([value], {type: type});
+	} else {
+		var BlobBuilder = window.BlobBuilder || window.MozBlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder;
+		var bb = new BlobBuilder();
+		bb.append(value);
+		blob = bb.getBlob(type);
+	}
+
+	var URL = window.URL || window.webkitURL;
+	var bloburl = URL.createObjectURL(blob);
+	var anchor = document.createElement("a");
+	if ('download' in anchor) {
+		anchor.style.visibility = "hidden";
+		anchor.href = bloburl;
+		anchor.download = name;
+		document.body.appendChild(anchor);
+		var evt = document.createEvent("MouseEvents");
+		evt.initEvent("click", true, true);
+		anchor.dispatchEvent(evt);
+		document.body.removeChild(anchor);
+	} else if (navigator.msSaveBlob) {
+		navigator.msSaveBlob(blob, name);
+	} else {
+		location.href = bloburl;
+	}
+
 }
