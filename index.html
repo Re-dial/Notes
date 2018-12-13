@@ -19,18 +19,17 @@
 			<div class="container-fluid" >
 				<!--导航栏左侧-->
 				<div class="navbar-header" >
-					<a class="navbar-brand" href="#" style="float: left; padding: 15px 15px;">
-						<img style="width:20px; height: 20px; margin-left: -15px;" alt="Brand" src="image/icon/logo.svg">
+					<a class="navbar-brand" style="float: left; padding: 15px 15px;">
+						<button style="border: none;background-color: rgba(0,0,0,0);cursor: pointer;outline:0px;" title="保存" onclick="Save()"><img style="width:20px; height: 20px; margin-left: -15px;" alt="Brand" src="image/icon/logo.svg"></button>
 					</a>
 					<p class="navbar-text" style="float: left; margin-top: 15px; margin-bottom: 15px;">Notes</p>
 
 				</div>
 				<!--导航栏右侧-->
 				<div class="navbar-right" id="#">
-					<p class="navbar-text " style="margin-top: 15px; margin-bottom: 15px;">卡片式笔记</p>
-					<input accept='image/*' style='display: none;' id='upload_file' type='file' onchange='gen_base64(this.files);' />
+					<p class="navbar-text " contenteditable="plaintext-only" id='file_name' style="margin-top: 15px; margin-bottom: 15px;">卡片式笔记</p>
 				</div>
-
+				<input accept='image/*' style='display: none;' id='upload_file' type='file' onchange='gen_base64(this.files);' />
 			</div>
 		</nav>
 
