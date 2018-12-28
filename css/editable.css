@@ -1,9 +1,32 @@
-﻿html, body { margin: 0; border: none; width: 100%; height: 100%; overflow: hidden; }
-.m-wrapper { width: 100%; height: 100%; }
+﻿html, body { margin: 0; border: none; width: 100%; height: 100%;}
 .Tool_button,.button {border: none;background-color: rgba(0,0,0,0);cursor: pointer;outline:0px;float: left;}
 .Tool_button:hover,.button:hover {background-color: #e7e7e7;}
 .Tool_button:active,.button:active {background-color: #DCDCDC;}
 .disabled {opacity: 0.6;cursor: not-allowed;}
+
+
+#m-wrapper {
+	float: left;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+}
+			
+#m-wrapper::-webkit-scrollbar-track {
+	background-color: #000;
+}
+
+#m-wrapper::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+	background-color: #F5F5F5;
+}
+
+#m-wrapper::-webkit-scrollbar-thumb {
+	background-color: #ffffff;
+}
+
+
 
 /*右键菜单栏*/
 .menu{
