@@ -12,6 +12,13 @@ document.onpaste = function(event){
 window.oncontextmenu = function(){
 	event.returnValue = false;
 };
+ /*关闭浏览器默认回车事件*/
+window.onkeydown = function (event) {
+var e = event || window.event;
+	if (e && e.keyCode == 13) { //回车键的键值为13
+		event.preventDefault();
+	}
+}; 
 /*--------------------------------------------------------------拖动排序组件----------------------------------------------------*/
 var dragged = null;
 
@@ -63,15 +70,7 @@ document.addEventListener("drop", function( event ) {
 
 
 
-/*--------------------------------------------------------------右键事件组件----------------------------------------------------*/
-
- //回车事件
-document.onkeydown = function (event) {
-var e = event || window.event;
-	if (e && e.keyCode == 13) { //回车键的键值为13
-		event.preventDefault();
-	}
-}; 
+/*--------------------------------------------------------------右键菜单事件组件----------------------------------------------------*/
 
 
 /*生成菜单*/
@@ -225,6 +224,7 @@ function add_Tool_Button(){
 	but += "<button class='Tool_button' data-Method='add_title2' title='标题' ><img src='image/icon/添加栏/标题.svg' /></button>";					// 添加文本按钮
 	but += "<button class='Tool_button' data-Method='add_Central_content' title='中心内容' ><img src='image/icon/添加栏/中心内容.svg' /></button>";			// 添加文本按钮
 	but += "<button class='Tool_button' data-Method='add_image' title='图片' ><img src='image/icon/添加栏/图片.svg' /></button>";					// 添加文本按钮
+	but += "<button class='Tool_button' data-Method='add_clod' title='代码' ><img src='image/icon/添加栏/代码.svg' /></button>";
 	but += "<button class='Tool_button' data-Method='add_media' title='媒体文件' ><img src='image/icon/添加栏/媒体文件.svg' /></button>";			// 添加文本按钮
 	
 	return but;
@@ -304,9 +304,9 @@ const changeStyle = function(data){
 function literals_Indent(){
 	
 	var Indentpx = Menu_Event_object.style.textIndent;
-	Indentpx =Indentpx.replace("px","");//过滤掉后面的px
+	Indentpx =Indentpx.replace("px","");												// 过滤掉后面的px
 	if(Indentpx <= 200)
-	Indentpx = Number(Indentpx)+25;//原基础上+25
+	Indentpx = Number(Indentpx)+25;														// 原基础上+25
 	
 	Menu_Event_object.style.textIndent = Indentpx +"px";
 	//console.log(Indentpx);
@@ -315,9 +315,9 @@ function literals_Indent(){
 function literals_Outdent(){
 	
 	var Indentpx = Menu_Event_object.style.textIndent;
-	Indentpx =Indentpx.replace("px","");//过滤掉后面的px
+	Indentpx =Indentpx.replace("px","");												// 过滤掉后面的px
 	if(Indentpx != 0)
-	Indentpx = Number(Indentpx)-25;//原基础上-25
+	Indentpx = Number(Indentpx)-25;														// 原基础上-25
 	
 	Menu_Event_object.style.textIndent = Indentpx +"px";
 	//console.log(Indentpx);
@@ -448,6 +448,29 @@ function gen_base64(file) {
 	
 }
 
+/*>>>>>>添加代码<<<<<<*/
+function add_clod(object){
+	var Card = document.createElement("div");
+	Card.className = "code";
+	Card.setAttribute("draggable", "true");												// 设置可被拖动
+	Card.innerHTML = "<p>添加代码</p>";
+	Card.setAttribute("data-menu-name", "add_Clod_media");								// 指定要调用的方法
+	
+	object.appendChild(Card);															// 插入媒体块
+	right_Menu_Event(Card);																// 绑定菜单事件
+	
+}
+/*生成编辑菜单*/
+function add_Clod_media(){
+	
+	var menu = document.createElement("div");
+	menu.id = "add_Clod_media";
+	menu.className = "menu";
+	
+	menu.innerHTML += "<button class='button' title='移除' onclick='literals_Delete()'><img src='image/icon/右键菜单/移除.svg' /></button>";
+	
+	document.getElementById("dropdown").appendChild(menu);								// 插入生成的菜单
+}
 
 /*>>>>>>添加媒体<<<<<<*/
 function add_media(object){
@@ -495,7 +518,7 @@ function Save(){
 
 	
 	
-	
+	/*拼接页面*/
 	var page = "<!DOCTYPE html><html><head><meta charset=' utf-8'><title>"+ titles +"</title><style>body{background-image:"+ document.body.style.backgroundImage +";background-size:cover;position:relative;background-color:#efefef;background-repeat:no-repeat;background-attachment:fixed;background-position:center;height:100%}nav{background-color:#222;border-color:#080808;top:0;border-width:0 0 1px;border-radius:0;position:fixed;right:0;left:0;z-index:1030}.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.navbar-header{float:left}.container-fluid>.navbar-collapse,.container-fluid>.navbar-header,.container>.navbar-collapse,.container>.navbar-header{margin-right:0;margin-left:0}.navbar-right{float:right!important}.Card{width:86%;max-width:960px;opacity:.95;margin-bottom:20px;background-color:#fff;border:1px solid transparent;border-radius:5px;box-shadow:1px 2px 1px rgba(0,0,0,0.05);box-sizing:border-box;margin:30px auto}.Content{margin:40px}.Title{border-bottom:1px solid #eee;box-sizing:border-box;display:block;outline:0}.Toolbars{min-height:20px;padding:10px 15px;box-shadow:0 1px 1px rgba(0,0,0,0.05);background-color:#f5f5f5;border-top:1px solid #ddd;border-bottom-right-radius:3px;border-bottom-left-radius:3px;user-select:none}h1,h2{font-weight:500;font-family:inherit;margin-top:20px;margin-bottom:10px;text-indent:25px}h1{font-size:36px}h2{font-size:24px}h1>small{font-weight:400;line-height:1;color:#777;font-size:65%}h2>small{font-weight:400;line-height:1;color:#555;font-size:65%}p,.text{font-weight:40;font-size:16px;color:#555;margin:10px auto;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.lead{font-size:20px;font-weight:10;margin-bottom:20px;font-weight:300;line-height:1.4;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}mark{padding:.2em;background-color:#fcf8e3}.blockquote{padding:10px 20px;margin:0 0 20px;border-left:5px solid #eee;display:block;font-size:80%;line--height:1.4285;color:#777}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block;content:'\2014 \00A0'}ol,ul{margin-top:0;margin-bottom:10px}li,dd{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.4285;color:#333;background-color:#fff}@media all and (min-width:768px){dl dt{float:left;width:160px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}dl dd{margin-left:180px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}}dd{margin-left:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}dt{font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.image{max-width:100%;width:auto;height:auto;padding:4px;line-height:1.4285;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:block;margin:20px auto}.img{margin:auto 10px}.media{border-style:solid;border-top-width:5px;border-top-color:#1b809e;border-right-width:1px;border-right-color:#eee;border-bottom-width:5px;border-bottom-color:#1b809e;border-left-width:1px;border-left-color:#eee;border-radius:3px;padding:10px 0 30px 0;margin:10px auto}iframe{width:100%;height:550px}table{width:100%;max-width:100%;margin-bottom:20px}table{background-color:transparent}table{border-spacing:0;border-collapse:collapse}table>thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}table>tbody>tr>td,table>tbody>tr>th,table>tfoot>tr>td,table>tfoot>tr>th,table>thead>tr>td,table>thead>tr>th{padding:8px;line-height:1.4285;vertical-align:top;border-top:1px solid rgba(0,0,0,0.05);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}caption{padding-top:8px;padding-bottom:8px;color:#777;text-align:left}</style></head><body><!--顶部导航栏--><nav class='navbar navbar-inverse navbar-fixed-top'style='background-color:#000000; height:50px;'><div class='container-fluid'><!--导航栏左侧--><div class='navbar-header'><p class='navbar-text'style='float: left; margin-top: 15px; margin-bottom: 15px;'>"+ titles +"</p></div><!--导航栏右侧--><div class='navbar-right'><a class='navbar-brand'href='https://space.bilibili.com/25826498'style='color: #555; float: left; padding: 15px 15px;text-decoration:none;'>@不存在的歌手</a></div></div></nav><!--卡组,卡片将在这里生成--><div id='Card_set'style='margin: 80px auto 60px auto;width:86%;max-width:960px;'>"+ body +"</div></body></html>";
 
 	doSave(page, "text/latex", titles + ".html");  										// doSave(值,类型,文件名.后缀名)
