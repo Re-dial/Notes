@@ -6,8 +6,6 @@
 		<link rel="icon" href="image/icon/logo.ico" type="image/x-icon">
 		<link href="css/default.css" rel="stylesheet">
 		<link href="css/editable.css" rel="stylesheet">
-		<link rel="stylesheet" href="dist/optiscroll.css">
-		<script type="text/javascript" src="dist/optiscroll.min.js"></script>
 		<!--如果没必要,可以不引入jQuery->
 		<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script-->
 		<!--卡片编辑器的主程序-->
@@ -36,18 +34,17 @@
 		<!--右键菜单栏-->
 		<div id="dropdown"></div>
 		
-		<!--主页面_这里使用了optiscroll的滑动条插件-->
-		<div id="m-wrapper" class="m-wrapper optiscroll">
+		<!--主页面-->
+		<div id="m-wrapper">
 		
 			<!--卡组,卡片将在这里生成-->
 			<div id="Card_set" style="margin: 80px auto 60px auto;width:86%;max-width:960px;"></div>
+			<div id="Card_sb" style="display: none;"></div>
 			<!--添加新按钮-->
 			<div style="width:86%;max-width:960px;height:80px;margin: 30px auto 60px auto;text-align:center">
 				<button style="border: none;background-color: rgba(0,0,0,0);cursor: pointer;outline:0px;" title="添加新卡片" onclick="add_Card();"><img style="width:70px; height: 70px; margin:auto; user-select:none;" alt="Brand" src="image/icon/add.svg"></button>
 			</div>
 		</div>
-		<script type="text/javascript">
-			var wr = new Optiscroll(document.getElementById('m-wrapper'), { forceScrollbars: true });
-		</script>
+		
 	</body>
 </html>
