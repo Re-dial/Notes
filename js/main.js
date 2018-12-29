@@ -77,12 +77,14 @@ document.addEventListener("drop", function( event ) {
 window.onload = function(){
 	//change_Background();																// 创建切换背景的菜单
 	add_Menu_Card();																	// 创建卡片编辑菜单
+	
 	add_Menu_literals();																// 创建文本编辑菜单
 	add_Menu_title2();																	// 创建标题编辑菜单
 	add_Menu_Central_content();															// 创建中心内容编辑菜单
 	add_Menu_image();																	// 创建图片编辑菜单
+	add_Clod_media();																	// 创建代码编辑菜单
+	add_Menu_media();																	// 创建媒体编辑菜单
 	
-	add_Menu_media()
 }
 
 
